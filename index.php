@@ -12,6 +12,8 @@ $statement = $databaseHandler->query('SELECT
     `game`.`title`,
     `game`.`release_date`,
     `game`.`link`,
+    `game`.`developer_id`,
+    `game`.`platform_id`,
     `developer`.`name` as `developer_name`,
     `developer`.`link` as `developer_link`,
     `platform`.`name` as `platform_name`,
@@ -89,9 +91,12 @@ $platforms = $statement->fetchAll();
                                 <a href="<?= $game['platform_link'] ?>"><?= $game['platform_name'] ?></a>
                             </td>
                             <td>
-                                <button class="btn btn-primary btn-sm">
-                                    <i class="fas fa-edit"></i>
-                                </button>
+                                <form>
+                                    <input name="update" type="hidden" value="<?= $game['id'] ?>" />
+                                    <button class="btn btn-primary btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </form>
                             </td>
                             <td>
                                 <button class="btn btn-danger btn-sm">
@@ -99,8 +104,50 @@ $platforms = $statement->fetchAll();
                                 </button>
                             </td>
                         </tr>
+
+                        <?php if (isset($_GET['update']) && $_GET['update'] === $game['id']) : ?>
+
+                            <!-- start form update-->
+                            <form method="post" action="actions/update.php">
+                                <input type="hidden" name="id" value="<?= $game['id'] ?>" />
+                                <tr>
+                                    <th scope="row"><?= $game['id'] ?></th>
+                                    <td>
+                                        <input type="text" name="title" placeholder="Title" value="<?= $game['title'] ?>" />
+                                        <br />
+                                        <input type="text" name="link" placeholder="External link" value="<?= $game['link'] ?>" />
+                                    </td>
+                                    <td>
+                                        <input type="date" name="release_date" value="<?= $game['release_date'] ?>" />
+                                    </td>
+                                    <td>
+                                        <select name="developer">
+                                            <?php foreach ($developers as $developer) : ?>
+                                                <option value="<?= $developer['id'] ?>" <?php if ($developer['id'] === $game['developer_id']) echo 'selected' ?>><?= $developer['name'] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select name="platform">
+                                            <?php foreach ($platforms as $platform) : ?>
+                                                <option value="<?= $platform['id'] ?>" <?php if ($platform['id'] === $game['platform_id']) echo 'selected' ?>><?= $platform['name'] ?></option>
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <button type="submit" class="btn btn-success btn-sm">
+                                            <i class="fas fa-plus"></i>
+                                        </button>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                            </form>
+                            <!-- end form update -->
+                        <?php endif ?>
                     <?php endforeach ?>
 
+
+                    <!--start form create -->
                     <form method="post" action="actions/create.php">
                         <tr>
                             <th scope="row"></th>
@@ -134,6 +181,7 @@ $platforms = $statement->fetchAll();
                             <td></td>
                         </tr>
                     </form>
+                    <!-- end form create -->
                 </tbody>
             </table>
             <div class="card-body">

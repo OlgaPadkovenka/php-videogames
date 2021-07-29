@@ -213,4 +213,34 @@ $errorMessages = [
                  </div>
              <?php endif; ?>
 
-16. 
+//Update
+16. Je crée un fichier update.php
+
+17. C'est la même chose que create, mais j'ajoute un id dans la requette.
+
+18. J'ajoute aussi dans la requette SELECT dans index.php
+ `game`.`developer_id`,
+`game`.`platform_id`,
+
+19. Je récupère l'id de game quand je clique sur le bouton.
+Form par défaut est en get.
+  <td>
+                                <form>
+                                    <input name="update"  type="hidden" value="<?= $game['id'] ?>" />
+                                    <button class="btn btn-primary btn-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </form>
+                            </td>
+
+20. Si dans les paramètres il y a update, j'affiche le formulaire pour pouvoir faire un update d'un game.
+
+ <?php if (isset($_GET['update']) && $_GET['update'] === $game['id']) : ?>
+<form>...</form>
+                        <?php endif ?>
+
+21. 
+ <option value="<?= $developer['id'] ?>" <?php if ($developer['id'] === $game['developer_id']) echo 'selected' ?>><?= $developer['name'] ?></option>
+
+//Delete
+22. 
