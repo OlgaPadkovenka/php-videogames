@@ -1,3 +1,21 @@
+<?php
+$databaseHandler = new PDO('mysql:host=localhost;dbname=videogames', 'root', 'root');
+
+$statement = $databaseHandler->query('SELECT
+    `game`.`id`,
+    `game`.`title`,
+    `game`.`release_date`,
+    `game`.`link`,
+    `developer`.`name` as `developer_name`,
+    `developer`.`link` as `developer_link`,
+    `platform`.`name` as `platform_name`,
+    `platform`.`link` as `platform_link`
+FROM `game`
+JOIN `developer` ON `game`.`developer_id` = `developer`.`id`
+JOIN `platform` ON `game`.`platform_id` = `platform`.`id`');
+$games = $statement->fetchAll();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,52 +47,32 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>
-                            <a href="https://en.wikipedia.org/wiki/Populous_(video_game)">Populous</a>
-                        </td>
-                        <td>5 june 1989</td>
-                        <td>
-                            <a href="https://en.wikipedia.org/wiki/Bullfrog_Productions">Bullfrog Productions</a>
-                        </td>
-                        <td>
-                            <a href="https://en.wikipedia.org/wiki/Amiga">Amiga</a>
-                        </td>
-                        <td>
-                            <button class="btn btn-primary btn-sm">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>
-                            <a href="https://en.wikipedia.org/wiki/Populous_(video_game)">Doom</a>
-                        </td>
-                        <td>10 December 1993</td>
-                        <td>
-                            <a href="https://en.wikipedia.org/wiki/Bullfrog_Productions">id Software</a>
-                        </td>
-                        <td>
-                            <a href="https://en.wikipedia.org/wiki/MS-DOS">MS-DOS</a>
-                        </td>
-                        <td>
-                            <button class="btn btn-primary btn-sm">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                        </td>
-                        <td>
-                            <button class="btn btn-danger btn-sm">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </td>
-                    </tr>
+                    <?php foreach ($games as $game) : ?>
+                        <tr>
+                            <th scope="row"><?= $game['id'] ?></th>
+                            <td>
+                                <a href="<?= $game['link'] ?>"><?= $game['title'] ?></a>
+                            </td>
+                            <td><?= $game['release_date'] ?></td>
+                            <td>
+                                <a href="<?= $game['developer_link'] ?>"><?= $game['developer_name'] ?></a>
+                            </td>
+                            <td>
+                                <a href="<?= $game['platform_link'] ?>"><?php $game['platform_name'] ?></a>
+                            </td>
+                            <td>
+                                <button class="btn btn-primary btn-sm">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+
                     <form>
                         <tr>
                             <th scope="row"></th>
@@ -113,7 +111,7 @@
                 <p class="card-text">Let us know what you think and give us some love! 🥰</p>
             </div>
             <div class="card-footer text-muted">
-                Created by <a href="https://github.com/M2i-DWWM-0920-Lyon-AURA">DWWM Lyon</a> &copy; 2020
+                Created by <a href="https://github.com/olgapadkovenka">CDA Lyon</a> &copy; 2021
             </div>
         </div>
     </div>
