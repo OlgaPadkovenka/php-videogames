@@ -243,4 +243,18 @@ Form par défaut est en get.
  <option value="<?= $developer['id'] ?>" <?php if ($developer['id'] === $game['developer_id']) echo 'selected' ?>><?= $developer['name'] ?></option>
 
 //Delete
-22. 
+22. Je crée un fichier delete.php. Je fais la requette.
+    // Crée un modèle de requête "à trous" dans lequel on pourra injecter des variables
+    $statement = $databaseHandler->prepare('DELETE FROM `game` WHERE `id` = :id');
+    // Exécute la requête préparée en remplaçant chaque champ variable par le contenu reçu du champ correspondant dans le formulaire
+    $statement->execute([
+        ':id' => $_POST['id']
+    ]);
+
+23. Je crée un formulaire dans index.php
+    <form method="post" action="actions/delete.php">
+                                    <input type="hidden" name="id" value="<?= $game['id'] ?>" />
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>

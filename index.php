@@ -99,9 +99,14 @@ $platforms = $statement->fetchAll();
                                 </form>
                             </td>
                             <td>
-                                <button class="btn btn-danger btn-sm">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
+                                <!-- start form delete-->
+                                <form method="post" action="actions/delete.php">
+                                    <input type="hidden" name="id" value="<?= $game['id'] ?>" />
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                                <!-- start form delete-->
                             </td>
                         </tr>
 
