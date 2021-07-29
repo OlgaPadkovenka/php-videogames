@@ -11,15 +11,18 @@ try {
         throw new Exception('Form field missing in request.', 1);
     }
 
-    // Configure une connexion au serveur de base de données
-    $databaseHandler = new PDO('mysql:host=localhost;dbname=videogames', 'root', 'root');
-    // Crée un modèle de requête "à trous" dans lequel on pourra injecter des variables
-    $statement = $databaseHandler->prepare('DELETE FROM `game` WHERE `id` = :id');
-    // Exécute la requête préparée en remplaçant chaque champ variable par le contenu reçu du champ correspondant dans le formulaire
-    $statement->execute([
-        ':id' => $_POST['id']
-    ]);
-
+    //Confirmation de la suppretion d'un jeu
+    //submitConfirmDeleteGame est un name de l'input
+    if (isset($_POST['confirmDelete'])) {
+        // Configure une connexion au serveur de base de données
+        $databaseHandler = new PDO('mysql:host=localhost;dbname=videogames', 'root', 'root');
+        // Crée un modèle de requête "à trous" dans lequel on pourra injecter des variables
+        $statement = $databaseHandler->prepare('DELETE FROM `game` WHERE `id` = :id');
+        // Exécute la requête préparée en remplaçant chaque champ variable par le contenu reçu du champ correspondant dans le formulaire
+        $statement->execute([
+            ':id' => $_POST['id']
+        ]);
+    }
     // Redirige sur la liste des jeux
     header('Location: ../');
 } catch (Exception $exception) {

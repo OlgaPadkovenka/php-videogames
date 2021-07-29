@@ -99,9 +99,18 @@ $platforms = $statement->fetchAll();
                                 </form>
                             </td>
                             <td>
+                                <!-- start la demande de la confirmation de la suppretion-->
+                                <script>
+                                    function confirmDeleteGame() {
+                                        return window.confirm("Est-ce que vous êtes sûr de vouloir supprimer le jeu vidéo?");
+                                    }
+                                </script>
+                                <!-- end la demande de la confirmation de la suppretion-->
+
                                 <!-- start form delete-->
-                                <form method="post" action="actions/delete.php">
+                                <form onsubmit="return confirmDeleteGame()" method="post" action="actions/delete.php">
                                     <input type="hidden" name="id" value="<?= $game['id'] ?>" />
+                                    <input type="hidden" name="confirmDelete" value="confirmDeleteGame" />
                                     <button type="submit" class="btn btn-danger btn-sm">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
@@ -110,9 +119,8 @@ $platforms = $statement->fetchAll();
                             </td>
                         </tr>
 
+                        <!-- start form update-->
                         <?php if (isset($_GET['update']) && $_GET['update'] === $game['id']) : ?>
-
-                            <!-- start form update-->
                             <form method="post" action="actions/update.php">
                                 <input type="hidden" name="id" value="<?= $game['id'] ?>" />
                                 <tr>
@@ -147,8 +155,9 @@ $platforms = $statement->fetchAll();
                                     <td></td>
                                 </tr>
                             </form>
-                            <!-- end form update -->
+
                         <?php endif ?>
+                        <!-- end form update -->
                     <?php endforeach ?>
 
 
