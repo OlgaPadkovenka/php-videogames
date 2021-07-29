@@ -69,4 +69,20 @@ $games = $statement->fetchAll();
                             </td>
                         </tr>
                     <?php endforeach ?>
-5. 
+5. J'affiche developer.
+
+Je fais la requette:
+$statement = $databaseHandler->query('SELECT * FROM developer');
+$developers = $statement->fetchAll();
+
+   <td>
+                                <select name="developer">
+                                    <?php foreach ($developers as $developer) : ?>
+                                        <option value="<?php $developer['id'] ?>"><?= $developer['name'] ?></option>
+                                    <?php endforeach ?>
+                                </select>
+                            </td>
+P.S. Je fais pareil pour les platforms.
+
+6. 
+
